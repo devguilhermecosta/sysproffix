@@ -8,4 +8,5 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'hospital.apps.HospitalConfig',
     'stock.apps.StockConfig',
+    'product.apps.ProductConfig',
 ]
