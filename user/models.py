@@ -1,9 +1,11 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
     AbstractUser,
 )
+from hospital.models import Hospital
 
 
 class CustomUserManager(BaseUserManager):
@@ -21,11 +23,22 @@ class CustomUserManager(BaseUserManager):
 
         return user
 
-    def create_hospital_user(self, f_name, l_name, email, password: str | None = None) -> AbstractUser:  # noqa: E501
+    def create_hospital_user(self,
+                             f_name,
+                             l_name,
+                             email,
+                             password: str | None = None,
+                             hospital: Hospital | None = None) -> AbstractUser:  # noqa: E501
         """
             Creates and saves a hospital user.
         """
+        if not hospital:
+            raise ValidationError(
+                "The user must have an hospital.",
+                code='required',
+            )
         user = self.__create_user(f_name, l_name, email, password)
+        user.hospital = hospital  # type: ignore
         user.is_hospital_user = True  # type: ignore
 
         return user
@@ -62,6 +75,11 @@ class CustomUser(AbstractBaseUser):
     is_hospital_user = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
+    hospital = models.ForeignKey(Hospital,
+                                 on_delete=models.CASCADE,
+                                 blank=True,
+                                 null=True,
+                                 )
 
     objects = CustomUserManager()
 
