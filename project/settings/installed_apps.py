@@ -9,4 +9,5 @@ INSTALLED_APPS = [
     'hospital.apps.HospitalConfig',
     'stock.apps.StockConfig',
     'product.apps.ProductConfig',
+    'transport.apps.TransportConfig',
 ]
