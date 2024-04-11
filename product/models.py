@@ -1,4 +1,5 @@
 from django.db import models
+from stock.models import Stock
 
 
 class ProductGroup(models.Model):
@@ -24,6 +25,10 @@ class ProductItem(models.Model):
                                 )
     lot = models.CharField(max_length=255, blank=False, null=False)
     quantity = models.IntegerField(blank=False, null=False, default=0)
+    stock = models.ForeignKey(Stock,
+                              on_delete=models.CASCADE,
+                              related_name="stock_items",
+                              )
 
     def __str__(self) -> str:
         return self.product.name
@@ -35,6 +40,10 @@ class PendingProduct(models.Model):
                                 related_name="pending",
                                 )
     quantity = models.IntegerField(blank=False, null=False, default=0)
+    stock = models.ForeignKey(Stock,
+                              on_delete=models.CASCADE,
+                              related_name="stock_pendings",
+                              )
 
     def __str__(self) -> str:
         return self.product.name
