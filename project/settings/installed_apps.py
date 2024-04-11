@@ -7,4 +7,5 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user.apps.UserConfig',
     'hospital.apps.HospitalConfig',
+    'stock.apps.StockConfig',
 ]
