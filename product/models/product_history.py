@@ -1,5 +1,5 @@
 from django.db import models
-from . product import ProductItem
+from .product import ProductItem
 
 
 PRODUCT_HISTORY_CHOICES = (
