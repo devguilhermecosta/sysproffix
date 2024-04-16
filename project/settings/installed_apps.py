@@ -10,4 +10,5 @@ INSTALLED_APPS = [
     'stock.apps.StockConfig',
     'product.apps.ProductConfig',
     'transport.apps.TransportConfig',
+    'home.apps.HomeConfig',
 ]
