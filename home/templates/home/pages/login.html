@@ -2,44 +2,68 @@
 {% load static %}
 
 {% block content %}
-  <section class="total_view_port_centered">
+  <section class="total_view_port_centered bg-red">
 
-    <!-- form -->
-    <div>
-      <form action="" class="login_form rounded-4">
+    {% if user.is_authenticated %}
+      <div class="pd-8 rounded-4 center-flex-column bg-white">
+        <p class="mtb-8">Você está logado como
+          <span style="text-transform: capitalize; text-decoration: underline">
+            {{ user.full_name }}
+          </span>
+        </p>
+        <a 
+          href="{% url 'home:main' %}"
+          class="pd-8 mtb-8 rounded-4 bg-blue color-white"
+          style="display: block">
+          Retornar à página principal
+        </a>
+      </div>
 
-        <!-- logo -->
-        <figure style="text-align: center" class="mtb-8">
-          <img 
-            src="{% static 'images/logo.jpg' %}" 
-            alt="logo proffix"
-            style="width: 100%; max-width: 160px"
-          >
-        </figure>
+    {% else %}
+      <!-- form -->
+      <div>
+        <form
+          action="{% url "home:authentication" %}"
+          method="POST"
+          class="login_form rounded-4"
+        >
+          {% csrf_token %}
 
-        <!-- username -->
-        <div class="login_form__div_container center-flex mtb-8">
-          <div class="center-flex">
-            <span class="material-symbols-outlined size-40 dark-inactive">person</span>
+          <!-- logo -->
+          <figure style="text-align: center" class="mtb-8">
+            <img 
+              src="{% static 'images/logo.jpg' %}" 
+              alt="logo proffix"
+              style="width: 100%; max-width: 160px"
+            >
+          </figure>
+
+          <!-- username -->
+          <div class="login_form__div_container center-flex mtb-8">
+            <div class="center-flex">
+              <span class="material-symbols-outlined size-40 dark-inactive">person</span>
+            </div>
+            <input type="username" name="username" id="username" class="login_form__input" placeholder="Digite seu e-mail...">
           </div>
-          <input type="email" name="user" id="user" class="login_form__input" placeholder="Digite seu e-mail...">
-        </div>
 
-        <!-- password -->
-        <div class="login_form__div_container center-flex mtb-8">
-          <div class="center-flex">
-            <span class="material-symbols-outlined size-40 dark-inactive">key</span>
+          <!-- password -->
+          <div class="login_form__div_container center-flex mtb-8">
+            <div class="center-flex">
+              <span class="material-symbols-outlined size-40 dark-inactive">key</span>
+            </div>
+            <input type="password" name="password" id="password" class="login_form__input" placeholder="Digite sua senha...">
           </div>
-          <input type="password" name="password" id="password" class="login_form__input" placeholder="Digite sua senha...">
-        </div>
 
-        <!-- button -->
-        <div class="center-flex mtb-8 access-button">
-          <span class="material-symbols-outlined size-40">login</span>
-          <p>acessar painel</p>
-        </div>
-      </form>
-    </div>
+          <!-- button -->
+          <button type="submit" class="center-flex mtb-8 access-button" style="width: 100%">
+            <span class="material-symbols-outlined size-40">login</span>
+            <p>acessar painel</p>
+          </button>
+        </form>
+      </div>
+
+    {% endif %}
+
   </section>
 
 {% endblock content %}
