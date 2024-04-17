@@ -1,0 +1,8 @@
+{% if messages %}
+  {% for message in messages %}
+    <div id="message" class="messages rounded-4 {{ message.tags }}">
+      <p>{{ message }}</p>
+      <span class="progress-bar-message rounded-4" id="progress-bar"></span>
+    </div>
+  {% endfor %}
+{% endif %}
