@@ -1,6 +1,45 @@
 {% extends "global/pages/base.html" %}
+{% load static %}
 
 {% block content %}
-  <h1 class="teste">Teste de template</h1>
+  <section class="total_view_port_centered">
+
+    <!-- form -->
+    <div>
+      <form action="" class="login_form rounded-4">
+
+        <!-- logo -->
+        <figure style="text-align: center" class="mtb-8">
+          <img 
+            src="{% static 'images/logo.jpg' %}" 
+            alt="logo proffix"
+            style="width: 100%; max-width: 160px"
+          >
+        </figure>
+
+        <!-- username -->
+        <div class="login_form__div_container center-flex mtb-8">
+          <div class="center-flex">
+            <span class="material-symbols-outlined size-40 dark-inactive">person</span>
+          </div>
+          <input type="email" name="user" id="user" class="login_form__input" placeholder="Digite seu e-mail...">
+        </div>
+
+        <!-- password -->
+        <div class="login_form__div_container center-flex mtb-8">
+          <div class="center-flex">
+            <span class="material-symbols-outlined size-40 dark-inactive">key</span>
+          </div>
+          <input type="password" name="password" id="password" class="login_form__input" placeholder="Digite sua senha...">
+        </div>
+
+        <!-- button -->
+        <div class="center-flex mtb-8 access-button">
+          <span class="material-symbols-outlined size-40">login</span>
+          <p>acessar painel</p>
+        </div>
+      </form>
+    </div>
+  </section>
 
 {% endblock content %}
