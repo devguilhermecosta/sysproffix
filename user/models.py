@@ -40,6 +40,7 @@ class CustomUserManager(BaseUserManager):
         user = self.__create_user(f_name, l_name, email, password)
         user.hospital = hospital  # type: ignore
         user.is_hospital_user = True  # type: ignore
+        user.save(using=self._db)
 
         return user
 
@@ -49,6 +50,7 @@ class CustomUserManager(BaseUserManager):
         """
         user = self.__create_user(f_name, l_name, email, password)
         user.is_admin = True  # type: ignore
+        user.save(using=self._db)
 
         return user
 
@@ -59,6 +61,7 @@ class CustomUserManager(BaseUserManager):
         user = self.__create_user(f_name, l_name, email, password)
         user.is_admin = True  # type: ignore
         user.is_staff = True
+        user.save(using=self._db)
 
         return user
 
@@ -74,6 +77,7 @@ class CustomUser(AbstractBaseUser):
                               )
     is_hospital_user = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)
     hospital = models.ForeignKey(Hospital,
                                  on_delete=models.CASCADE,
