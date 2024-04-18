@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.exceptions import ValidationError
 from django.contrib.auth.models import (
     AbstractBaseUser,
     BaseUserManager,
@@ -9,7 +8,7 @@ from hospital.models import Hospital
 
 
 class CustomUserManager(BaseUserManager):
-    def __create_user(self, f_name, l_name, email, password: str | None = None) -> AbstractUser:  # noqa: E501
+    def create_user(self, f_name, l_name, email, password: str | None = None) -> AbstractUser:  # noqa: E501
         """
             Creates and saves a common user.
         """
@@ -18,38 +17,8 @@ class CustomUserManager(BaseUserManager):
             last_name=l_name,
             email=self.normalize_email(email),
         )
+        user.is_active = True
         user.set_password(password)
-        user.save(using=self._db)
-
-        return user
-
-    def create_hospital_user(self,
-                             f_name,
-                             l_name,
-                             email,
-                             password: str | None = None,
-                             hospital: Hospital | None = None) -> AbstractUser:  # noqa: E501
-        """
-            Creates and saves a hospital user.
-        """
-        if not hospital:
-            raise ValidationError(
-                "The user must have an hospital.",
-                code='required',
-            )
-        user = self.__create_user(f_name, l_name, email, password)
-        user.hospital = hospital  # type: ignore
-        user.is_hospital_user = True  # type: ignore
-        user.save(using=self._db)
-
-        return user
-
-    def create_admin_user(self, f_name, l_name, email, password: str | None = None) -> AbstractUser:  # noqa: E501
-        """
-            Creates and saves a user admin (user who is part of the team).
-        """
-        user = self.__create_user(f_name, l_name, email, password)
-        user.is_admin = True  # type: ignore
         user.save(using=self._db)
 
         return user
@@ -58,9 +27,10 @@ class CustomUserManager(BaseUserManager):
         """
             Creates and saves a superuser (programmer user).
         """
-        user = self.__create_user(f_name, l_name, email, password)
+        user = self.create_user(f_name, l_name, email, password)
         user.is_admin = True  # type: ignore
         user.is_staff = True
+        user.is_hospital_user = True  # type: ignore
         user.save(using=self._db)
 
         return user
@@ -75,7 +45,7 @@ class CustomUser(AbstractBaseUser):
                               unique=True,
                               verbose_name="email adress",
                               )
-    is_hospital_user = models.BooleanField(default=False)
+    is_hospital_user = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateField(auto_now_add=True)

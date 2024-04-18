@@ -1,0 +1,55 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+  <section class="total_view_port_column_start pd-8 mt-8 rg-10">
+
+    <section class="users_table_container">
+      <!-- new user -->
+      <div class="mb-16 right-flex">
+        <a 
+          href="{% url 'users:new' %}" 
+          class="new-data-button center-flex pd-4 rounded-4 fit-content">
+          <span class="material-symbols-outlined">
+            add_circle
+          </span>
+          novo usuário
+        </a>
+      </div>
+
+      <!-- user list -->
+      <table class="users_table">
+        <tr>
+          <th>usuário</th>
+          <th>desde</th>
+          <th>ativo</th>
+          <th>admin</th>
+          <th>desen.</th>
+          <th>hospital</th>
+          <th>instituição</th>
+        </tr>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.full_name|title }}</td>
+            <td>{{ user.created_at|date:"d/m/Y" }}</td>
+            <td>
+              <input type="checkbox" name="is_active" id="is_active" checked="{{ user.is_active }}" disabled>
+            </td>
+            <td>
+              <input type="checkbox" name="is_admin" id="is_admin" checked="{{ user.is_admin }}" disabled>
+            </td>
+            <td>
+              <input type="checkbox" name="is_staff" id="is_staff" checked="{{ user.is_staff }}" disabled>
+            </td>
+            <td>
+              <input type="checkbox" name="is_hospital_user" id="is_hospital_user" checked="{{ user.is_hospital_user }}" disabled>
+            </td>
+            {% if user.hospital %}
+              <td>{{ user.hospital|title }}</td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </table>
+    </section>
+
+  </section>
+{% endblock content %}
