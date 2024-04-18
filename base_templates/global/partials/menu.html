@@ -1,0 +1,34 @@
+<!-- menu -->
+<div class="C_menu pd-8">
+  <ul class="C_menu__ul">
+
+    <!-- just admin user -->
+    {% if user.is_admin %}
+      <!-- users -->
+      <li class="C_menu__li">
+        <a href="" class="C_menu__link">
+          <span class="material-symbols-outlined dark circle pd-8 border-white">person</span>
+          <p class="color-white">usuários</p>
+        </a>
+      </li>
+
+      <!-- hospitals -->
+      <li class="C_menu__li">
+        <a href="" class="C_menu__link">
+          <span class="material-symbols-outlined dark circle pd-8 border-white">local_hospital</span>
+          <p class="color-white">hospitais</p>
+        </a>
+      </li>
+    {% endif %}
+
+    <!-- all users -->
+    <!-- logout -->
+    <li class="C_menu__li">
+      <a href="{% url 'home:logout' %}" class="C_menu__link">
+        <span class="material-symbols-outlined dark circle pd-8 border-white">logout</span>
+        <p class="color-white">sair</p>
+      </a>
+    </li>
+
+  </ul>
+</div>

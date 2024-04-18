@@ -2,7 +2,7 @@ from django.views import View
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -27,6 +27,20 @@ class LoginView(View):
         else:
             messages.error(self.request, 'Usuário ou senha inválidos.')
             return redirect(reverse("home:login"))
+
+
+@method_decorator(
+    login_required(
+        redirect_field_name='next',
+        login_url='/',
+    ),
+    name='dispatch',
+)
+class LogoutView(View):
+    def get(self, *args, **kwargs) -> HttpResponse:
+        logout(self.request)
+        messages.success(self.request, 'Logout realizado com sucesso')
+        return redirect(reverse('home:login'))
 
 
 @method_decorator(
