@@ -1,0 +1,43 @@
+<section class="total_view_port_column_start mt-8">
+  <h1 class="title fw-500 fs-20">{% if title %}{{ title }}{% endif %}</h1>
+
+  <form class="new-register-form" method="POST" action="{% if url %}{{ url }}{% endif %}">
+    {% csrf_token %}
+    {% for field in form %}
+
+      {% if user.is_staff %}
+        {% if field.name == 'is_staff' %}
+          <div>
+            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            {{ field }}
+            {{ field.errors }}
+          </div>
+        {% endif %}
+      {% else %}
+        {% if field.name == 'is_staff' %}
+          <div>
+            <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+            <input type="checkbox" name="is_staff" id="is_staff" disabled>
+          </div>
+        {% endif %}
+      {% endif %}
+
+      {% if field.name != 'is_staff' %}
+        <div>
+          <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
+          {{ field }}
+          {{ field.errors }}
+        </div>
+      {% endif %}
+
+    {% endfor %}
+    <button type="submit" class="new-data-button width-100 pd-8 title">
+      {% if button_value %}
+        {{ button_value }}
+      {% else %}
+        cadastrar
+      {% endif %}
+    </button>
+  </form>
+
+</section>
