@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('', include('home.urls')),
     path('usuarios/', include('user.urls')),
+    path('hospitais/', include('hospital.urls')),
 ]
 
 if settings.DEBUG:
