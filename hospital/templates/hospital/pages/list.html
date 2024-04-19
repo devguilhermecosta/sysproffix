@@ -1,0 +1,34 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+  <section class="total_view_port_column_start pd-8 mt-8 rg-10">
+
+    <section class="default_table_container">
+      <!-- new hospital -->
+      <div class="mb-16 right-flex">
+        <a 
+          href="{% url 'hospital:new' %}" 
+          class="new-data-button center-flex pd-4 rounded-4 fit-content">
+          <span class="material-symbols-outlined">add_circle</span>
+          novo
+        </a>
+      </div>
+
+      <!-- hospital list -->
+      <table class="default_table">
+        <tr>
+          <th>nome</th>
+          <th>cidade</th>
+          <th>estado</th>
+        </tr>
+        {% for hospital in hospitals %}
+          <tr>
+            <td>{{ hospital.name|title }}</td>
+            <td>{{ hospital.city|title }}</td>
+            <td>{{ hospital.state|upper }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </section>
+  </section>
+{% endblock content %}
