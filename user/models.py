@@ -37,18 +37,29 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser):
-    first_name = models.CharField(max_length=50, blank=False, null=False)
-    last_name = models.CharField(max_length=50, blank=False, null=False)
+    first_name = models.CharField(max_length=50,
+                                  blank=True,
+                                  null=False,
+                                  verbose_name='Nome',
+                                  )
+    last_name = models.CharField(max_length=50,
+                                 blank=True,
+                                 null=False,
+                                 verbose_name='sobrenome',
+                                 )
     email = models.EmailField(max_length=255,
-                              blank=False,
+                              blank=True,
                               null=False,
                               unique=True,
-                              verbose_name="email adress",
+                              error_messages={
+                                  'unique': 'e-mail já cadastrado',
+                              }
                               )
-    is_hospital_user = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=False)
-    created_at = models.DateField(auto_now_add=True)
+    is_hospital_user = models.BooleanField(default=True,
+                                           verbose_name='usuário de hospital')
+    is_admin = models.BooleanField(default=False, verbose_name='administrador')
+    is_staff = models.BooleanField(default=False, verbose_name='desenvolvedor')
+    created_at = models.DateField(auto_now_add=True, verbose_name='desde')
     hospital = models.ForeignKey(Hospital,
                                  on_delete=models.CASCADE,
                                  blank=True,

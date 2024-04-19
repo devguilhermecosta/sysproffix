@@ -1,0 +1,26 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+    {% include 'global/partials/form.html' %}
+
+    <form 
+      id="form-delete"
+      class="delete-button-float center-flex rounded-4 pd-8 bg-red color-white"
+      method="POST"
+      action="{% url 'users:delete' user_detail.pk %}"
+    >
+      {% csrf_token %}
+      <span>deletar</span>
+      <span class="material-symbols-outlined">delete</span>
+    </form>
+
+    <script>
+      const form_delete = document.querySelector("#form-delete");
+      form_delete.addEventListener("click", (event) => {
+        event.preventDefault();
+        const confirm = window.confirm('Deseja realmente deletar este usuário? Ao deletar, registros poderão ser perdidos.');
+        if (confirm) form_delete.submit();
+      })
+    </script>
+
+{% endblock content %}

@@ -1,19 +1,5 @@
 {% extends 'global/pages/base.html' %}
 
 {% block content %}
-  <section class="total_view_port_column_start mt-8">
-    <h1 class="title fw-500 fs-20">cadastrar novo usuário</h1>
-
-    <form class="user-register-form" action="">
-      {% for field in form %}
-        <div>
-          <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
-          {{ field }}
-          {{ field.errors }}
-        </div>
-      {% endfor %}
-      <button type="submit" class="new-data-button width-100 pd-8 title">cadastrar</button>
-    </form>
-
-  </section>
+  {% include 'global/partials/form.html' %}
 {% endblock content %}
