@@ -263,7 +263,7 @@ span.size-48 {
   padding-bottom: 0;
   color: #fff;
   min-height: 60px;
-  position: absolute;
+  position: fixed;
   top: 10px;
   right: -100px;
   display: flex;
@@ -272,6 +272,7 @@ span.size-48 {
   align-items: center;
   text-align: center;
   overflow: hidden;
+  z-index: 1000;
 }
 
 .messages_show {
@@ -280,6 +281,12 @@ span.size-48 {
 
 .messages_close {
   animation: close-message 300ms ease-in forwards;
+}
+
+/* classe do Django */
+.errorlist {
+  list-style: none;
+  color: var(--bg_red);
 }
 
 .error {
@@ -347,6 +354,14 @@ span.size-48 {
 
 .new-data-button {
  background-color: var(--bg_success);
+}
+
+.delete-button-float {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+  z-index: 1;
 }
 /****  end Buttons ****/
 
@@ -420,34 +435,34 @@ span.size-48 {
   column-gap: 15px;
 }
 
-.users_table_container {
+.default_table_container {
   width: 80vw;
   max-width: 960px;
 }
 
-.users_table {
+.default_table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.users_table tr:first-child {
+.default_table tr:first-child {
   background: var(--bg_blue_hover);
   color: var(--bg_white);
   text-transform: capitalize;
 }
 
-.users_table th,
-.users_table td {
+.default_table th,
+.default_table td {
   text-align: center;
   padding: 8px;
 }
 
-.user-register-form {
+.new-register-form {
   width: 80vw;
   max-width: 400px;
 }
 
-.user-register-form > div {
+.new-register-form > div {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -455,18 +470,18 @@ span.size-48 {
   margin: 10px 0;
 }
 
-.user-register-form > div > label {
+.new-register-form > div > label {
   font-weight: 500;
 }
 
-.user-register-form > div > label::first-letter {
+.new-register-form > div > label::first-letter {
   text-transform: uppercase;
 }
 
-.user-register-form > div > input[type='text'],
-.user-register-form > div > input[type='password'],
-.user-register-form > div > input[type='email'],
-.user-register-form > div > select
+.new-register-form > div > input[type='text'],
+.new-register-form > div > input[type='password'],
+.new-register-form > div > input[type='email'],
+.new-register-form > div > select
 {
   width: 100%;
   padding: 8px;
@@ -474,6 +489,16 @@ span.size-48 {
   outline: none;
 }
 
-.user-register-form > div > input[type='checkbox'] {
+.new-register-form > div > input[type='checkbox'] {
   outline: none;
+}
+
+@media screen and (max-width: 840px) {
+  .C_menu {
+    max-width: 60px;
+  }
+  
+  .C_menu:hover {
+    max-width: 60px;
+  }
 }
