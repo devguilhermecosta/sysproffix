@@ -77,3 +77,6 @@ class HospitalRegisterView(View):
         )
 
         return redirect(reverse('hospital:new'))
+
+
+# TODO criar as demais views (details, edit, delete)
