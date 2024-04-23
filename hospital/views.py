@@ -7,12 +7,14 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from . models import Hospital
 from . forms import HospitalRegisterForm
+from utils.decorators import only_user_admin
 
 
 @method_decorator(
-    login_required(redirect_field_name='next',
-                   login_url='/',
-                   ),
+    [
+        login_required(redirect_field_name='next', login_url='/'),
+        only_user_admin,
+    ],
     name='dispatch',
 )
 class HospitalListView(View):
@@ -30,9 +32,10 @@ class HospitalListView(View):
 
 
 @method_decorator(
-    login_required(redirect_field_name='next',
-                   login_url='/',
-                   ),
+    [
+        login_required(redirect_field_name='next', login_url='/'),
+        only_user_admin,
+    ],
     name='dispatch',
 )
 class HospitalRegisterView(View):
