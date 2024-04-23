@@ -8,13 +8,14 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from user.forms import UserRegisterForm
+from utils.decorators import only_user_admin
 
 
 @method_decorator(
-    login_required(
-        redirect_field_name='next',
-        login_url='/',
-    ),
+    [
+        login_required(redirect_field_name='next', login_url='/'),
+        only_user_admin,
+    ],
     name='dispatch',
 )
 class UserListView(View):
@@ -32,10 +33,10 @@ class UserListView(View):
 
 
 @method_decorator(
-    login_required(
-        redirect_field_name='next',
-        login_url='/',
-    ),
+    [
+        login_required(redirect_field_name='next', login_url='/'),
+        only_user_admin,
+    ],
     name='dispatch',
 )
 class UserCreateView(View):
@@ -80,10 +81,10 @@ class UserCreateView(View):
 
 
 @method_decorator(
-    login_required(
-        redirect_field_name='next',
-        login_url='/',
-    ),
+    [
+        login_required(redirect_field_name='next', login_url='/'),
+        only_user_admin,
+    ],
     name='dispatch',
 )
 class UserDetailView(View):
@@ -131,10 +132,10 @@ class UserDetailView(View):
 
 
 @method_decorator(
-    login_required(
-        redirect_field_name='next',
-        login_url='/',
-    ),
+    [
+        login_required(redirect_field_name='next', login_url='/'),
+        only_user_admin,
+    ],
     name='dispatch',
 )
 class UserDeleteView(View):
@@ -150,5 +151,5 @@ class UserDeleteView(View):
 
         return redirect(reverse('users:list'))
 
-# TODO antes de continuar, criar todos os testes de usuário.
 # TODO preciso criar o sistema de geração automática de senha e enviar por e-mail  # noqa: E501
+# TODO criar a área do meu perfil antes de continuar (painel para alterar os dados e senha)
