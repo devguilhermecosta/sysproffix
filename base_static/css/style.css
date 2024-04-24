@@ -148,6 +148,11 @@ span.size-48 {
   align-items: center;
 }
 
+.row-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
 .rg-10 {
   row-gap: 10px;
 }
@@ -491,6 +496,28 @@ span.size-48 {
 
 .new-register-form > div > input[type='checkbox'] {
   outline: none;
+}
+
+.my-account-table {
+  border-spacing: 10px;
+}
+
+.my-account-table td {
+  padding: 8px;
+}
+
+.my-account-table tr > td:nth-of-type(1) {
+  text-transform: capitalize;
+  font-weight: 500;
+}
+
+.my-account-table tr > td:nth-of-type(1)::after {
+  content: ':';
+}
+
+.my-account-table tr > td:nth-of-type(2) {
+  background-color: #ece8e8;
+  border-radius: 6px;
 }
 
 @media screen and (max-width: 840px) {

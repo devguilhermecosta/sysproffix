@@ -22,6 +22,13 @@
     {% endif %}
 
     <!-- all users -->
+    <!-- my account -->
+    <li class="C_menu__li">
+      <a href="{% url 'users:account' %}" class="C_menu__link">
+        <span class="material-symbols-outlined dark circle pd-8 border-white">manage_accounts</span>
+        <p class="color-white">minha conta</p>
+      </a>
+    </li>
     <!-- logout -->
     <li class="C_menu__li">
       <a href="{% url 'home:logout' %}" class="C_menu__link">

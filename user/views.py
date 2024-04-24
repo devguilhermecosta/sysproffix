@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from user.forms import UserRegisterForm
+from user.forms import UserRegisterForm, ChangePasswordForm
 from utils.decorators import only_user_admin
 
 
@@ -150,6 +150,21 @@ class UserDeleteView(View):
         )
 
         return redirect(reverse('users:list'))
+
+
+class MyAccountView(View):
+    def get(self, *args, **kwargs) -> HttpResponse:
+        form = ChangePasswordForm()
+
+        return render(
+            self.request,
+            'user/pages/my_account.html',
+            context={
+                'form': form,
+                'button_value': 'cadastrar nova senha'
+            }
+        )
+
 
 # TODO preciso criar o sistema de geração automática de senha e enviar por e-mail  # noqa: E501
 # TODO criar a área do meu perfil antes de continuar (painel para alterar os dados e senha)

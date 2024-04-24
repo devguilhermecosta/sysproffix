@@ -1,0 +1,32 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+  <section class="total_view_port_column_start pd-8 mt-8 rg-10">
+    <!-- title -->
+    <h1 class="title fs-20 fw-500">minha conta</h1>
+
+    <!-- user data -->
+    <table class="my-account-table">
+      <tr>
+        <td>nome</td>
+        <td>{{ user.full_name|title }}</td>
+      </tr>
+      <tr>
+        <td>email</td>
+        <td>{{ user.email }}</td>
+      </tr>
+      <tr>
+        <td>instituição</td>
+        <td>{{ user.hospital.name }}</td>
+      </tr>
+      <tr>
+        <td>desde</td>
+        <td>{{ user.created_at }}</td>
+      </tr>
+    </table>
+
+    <!-- change password form -->
+    {% include 'global/partials/form.html' %}
+
+  </section>
+{% endblock content %}
