@@ -23,7 +23,7 @@
         </tr>
         {% for hospital in hospitals %}
           <tr>
-            <td>{{ hospital.name|title }}</td>
+            <td><a href="{% url 'hospital:details' hospital.id %}" class="fw-500">{{ hospital.name|title }}</a></td>
             <td>{{ hospital.city|title }}</td>
             <td>{{ hospital.state|upper }}</td>
           </tr>
