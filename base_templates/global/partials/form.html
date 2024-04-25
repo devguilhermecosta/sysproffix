@@ -26,7 +26,11 @@
         <div>
           <label for="{{ field.id_for_label }}">{{ field.label }}:</label>
           {{ field }}
-          {{ field.errors }}
+          {% if field.errors %}
+            {{ field.errors }}
+          {% else %}
+            <span class="helptext">{{ field.help_text }}</span>
+          {% endif %}  
         </div>
       {% endif %}
 
