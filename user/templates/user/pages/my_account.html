@@ -17,11 +17,11 @@
       </tr>
       <tr>
         <td>instituição</td>
-        <td>{{ user.hospital.name }}</td>
+        <td>{{ user.hospital.name|title }}</td>
       </tr>
       <tr>
         <td>desde</td>
-        <td>{{ user.created_at }}</td>
+        <td>{{ user.created_at|date:"d/m/Y" }}</td>
       </tr>
     </table>
 
