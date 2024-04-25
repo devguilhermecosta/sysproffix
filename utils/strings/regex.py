@@ -11,6 +11,3 @@ def strong_password(password: str) -> bool:
     """
     regex = re.compile(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,}$')
     return True if regex.match(password) else False
-
-
-# TODO criar os testes
