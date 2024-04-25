@@ -9,7 +9,16 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from user.forms import UserRegisterForm, ChangePasswordForm
+from django.core.mail import send_mail
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.contrib.sites.shortcuts import get_current_site
 from utils.decorators import only_user_admin
+from utils.strings.password import generate_password
+
+
+UserModel = get_user_model()
 
 
 @method_decorator(
@@ -63,6 +72,12 @@ class UserCreateView(View):
 
         if form.is_valid():
             form.save()
+            user_email = form.cleaned_data['email']
+            user = UserModel.objects.get(email=user_email)
+
+            password = generate_password()
+            user.set_password(password)
+            user.save()
 
             del self.request.session['user-register']
 
@@ -70,6 +85,26 @@ class UserCreateView(View):
                 self.request,
                 'Usuário registrado com sucesso'
             )
+
+            try:
+                send_mail(
+                    'Registro realizado com sucesso',
+                    strip_tags(
+                        render_to_string('user/pages/email.html', context={
+                            'new_user': user,
+                            'password': password,
+                            'link': get_current_site(self.request).domain,
+                        })
+                    ),
+                    settings.EMAIL_HOST_USER,
+                    [user.email],  # type: ignore
+                    fail_silently=False,
+                )
+                print('email enviado com sucesso')
+            except Exception as error:
+                # TODO criar um log error aqui
+                # TODO criar os testes de envio de email
+                print('Erro ao enviar o email: ', error)
 
             return redirect(reverse('users:list'))
 

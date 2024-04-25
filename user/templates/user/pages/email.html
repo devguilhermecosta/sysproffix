@@ -1,0 +1,17 @@
+{% autoescape off %}
+  <p>Olá {{ new_user.first_name|title }}.</p>
+
+  <p>Este é um e-mail automático. Não precisa respondê-lo.</p>
+
+  <p>Você está recebendo este e-mail pois seu registro foi concluído com sucesso.</p>
+
+  <p>Ao realizar o seu primeiro acesso, modifique sua senha no menu **Minha Conta**.</p>
+
+  <p>Acesso o portal por aqui: {{ link }}</p>
+
+  <p>usuário: {{ new_user.email }}</p>
+  <p>senha: {{ password }}</p>
+
+  <p>--</p>
+  <p>Atenciosamente: Equipe Proffix</p>
+{% endautoescape %}
