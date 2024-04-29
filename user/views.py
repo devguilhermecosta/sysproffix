@@ -16,6 +16,7 @@ from django.utils.html import strip_tags
 from django.contrib.sites.shortcuts import get_current_site
 from utils.decorators import only_user_admin
 from utils.strings.password import generate_password
+from utils.log import LogMixin
 
 
 UserModel = get_user_model()
@@ -49,7 +50,7 @@ class UserListView(View):
     ],
     name='dispatch',
 )
-class UserCreateView(View):
+class UserCreateView(View, LogMixin):
     def get(self, *args, **kwargs) -> HttpResponse:
 
         session = self.request.session.get('user-register', None)
@@ -79,6 +80,10 @@ class UserCreateView(View):
             user.set_password(password)
             user.save()
 
+            self.log_success(
+                'usuário %s criado com sucesso', user.full_name()  # type: ignore # noqa: E501
+            )
+
             del self.request.session['user-register']
 
             messages.success(
@@ -100,10 +105,11 @@ class UserCreateView(View):
                     [user.email],  # type: ignore
                     fail_silently=False,
                 )
-                print('email enviado com sucesso')
+                self.log_success(
+                    f'email enviado com sucesso para {user.email}'  # type: ignore  # noqa: E501
+                )
             except Exception as error:
-                # TODO criar um log error aqui
-                print('Erro ao enviar o email: ', error)
+                self.log_error(f'erro ao enviar o email para {user.email}: {error}')  # type: ignore  # noqa: E501
 
             return redirect(reverse('users:list'))
 
@@ -122,7 +128,7 @@ class UserCreateView(View):
     ],
     name='dispatch',
 )
-class UserDetailView(View):
+class UserDetailView(View, LogMixin):
     def get(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         user = get_object_or_404(get_user_model(), pk=pk)
@@ -150,6 +156,9 @@ class UserDetailView(View):
         if form.is_valid():
             form.save()
 
+            self.log_success(
+                f'senha do usuário {user.full_name()} alterada'  # type: ignore
+            )
             del self.request.session['user-edit']
 
             messages.success(
@@ -173,11 +182,15 @@ class UserDetailView(View):
     ],
     name='dispatch',
 )
-class UserDeleteView(View):
+class UserDeleteView(View, LogMixin):
     def post(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         user = get_object_or_404(get_user_model(), pk=pk)
         user.delete()
+
+        self.log_success(
+            'usuário %s deletado com sucesso', user.full_name()  # type: ignore
+        )
 
         messages.success(
             self.request,
@@ -242,4 +255,4 @@ class MyAccountView(View):
         return redirect(reverse('users:account'))
 
 
-# TODO preciso criar o sistema de geração automática de senha e enviar por e-mail  # noqa: E501
+# TODO criar o sistema de recuperação de senha
