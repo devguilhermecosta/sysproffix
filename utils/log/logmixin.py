@@ -2,13 +2,12 @@ from pathlib import Path
 from datetime import datetime
 
 
-ROOT = Path(__file__).parent.parent.parent
+ROOT = Path(__file__).parent.parent.parent / 'log.txt'
 FORMATED_DATA = datetime.today().strftime('%d/%m/%Y - %H:%M:%S')
 
 
 class LogMixin:
-    def __init__(self, path: Path | str = ROOT / 'log.txt') -> None:
-        self.path = path
+    path = ROOT
 
     def __cursor(self, content: str) -> None:
         with open(self.path, 'a+') as file:

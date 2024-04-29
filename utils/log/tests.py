@@ -11,15 +11,19 @@ ROOT = Path(__file__).parent / 'log.txt'
 
 
 class LogMixinTest(TestCase):
+    def setUp(self) -> None:
+        self.log = LogMixin()
+        self.log.path = ROOT
+        return super().setUp()
+
     def tearDown(self) -> None:
         with contextlib.suppress(OSError, FileNotFoundError):
             os.remove(ROOT)
         return super().tearDown()
 
     def test_should_write_log_error(self) -> None:
-        log = LogMixin(path=ROOT)
         msg = 'message error'
-        log.log_error(msg)
+        self.log.log_error(msg)
 
         with open(ROOT, 'r') as file:
             read = file.read()
@@ -28,9 +32,8 @@ class LogMixinTest(TestCase):
             self.assertIn(msg, read)
 
     def test_should_write_log_success(self) -> None:
-        log = LogMixin(path=ROOT)
         msg = 'message success'
-        log.log_success(msg)
+        self.log.log_success(msg)
 
         with open(ROOT, 'r') as file:
             read = file.read()
@@ -42,11 +45,10 @@ class LogMixinTest(TestCase):
         """
             when writing new logs, the previous logs must be kept.
         """
-        log = LogMixin(path=ROOT)
         msg_error = 'message success'
         msg_success = 'message success'
-        log.log_error(msg_error)
-        log.log_success(msg_success)
+        self.log.log_error(msg_error)
+        self.log.log_success(msg_success)
 
         with open(ROOT, 'r') as file:
             read = file.read()

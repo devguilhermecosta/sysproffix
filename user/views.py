@@ -81,7 +81,7 @@ class UserCreateView(View, LogMixin):
             user.save()
 
             self.log_success(
-                'usuário %s criado com sucesso', user.full_name()  # type: ignore # noqa: E501
+                f'usuário {user.full_name} criado com sucesso',  # type: ignore
             )
 
             del self.request.session['user-register']
@@ -157,7 +157,7 @@ class UserDetailView(View, LogMixin):
             form.save()
 
             self.log_success(
-                f'senha do usuário {user.full_name()} alterada'  # type: ignore
+                f'senha do usuário {user.full_name} alterada'  # type: ignore
             )
             del self.request.session['user-edit']
 
@@ -189,7 +189,7 @@ class UserDeleteView(View, LogMixin):
         user.delete()
 
         self.log_success(
-            'usuário %s deletado com sucesso', user.full_name()  # type: ignore
+            f'usuário {user.full_name} deletado com sucesso',  # type: ignore
         )
 
         messages.success(
