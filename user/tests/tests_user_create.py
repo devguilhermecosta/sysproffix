@@ -1,6 +1,7 @@
 from utils.for_test.auth.authentication import TestCaseWithLogin
 from utils.for_test.models.hospital import create_hospital
 from django.urls import reverse
+from django.core import mail
 from parameterized import parameterized  # type: ignore
 
 
@@ -119,4 +120,35 @@ class UserCreateTests(TestCaseWithLogin):
             response=response,
             expected_url='/usuarios/list/',
             status_code=302,
+        )
+
+    def test_should_send_an_mail_with_user_data(self) -> None:
+        """
+            when a user is created, an email with the password must be sent.
+        """
+        self.make_login()
+        create_hospital()
+
+        form_data = {
+            'first_name': 'jhon',
+            'last_name': 'doe',
+            'email': 'jhon@email.com',
+            'password': '123456',
+            'hospital': 1,  # this is a select input
+        }
+
+        self.client.post(
+            self.base_url,
+            form_data,
+            follow=True,
+        )
+
+        email = mail.outbox
+
+        self.assertEqual(len(email), 1)
+        self.assertEqual(email[0].subject, 'Registro realizado com sucesso')
+        self.assertIn('Olá Jhon', email[0].body)
+        self.assertIn(
+            'Você está recebendo este e-mail pois seu registro foi concluído com sucesso',  # noqa: E501
+            email[0].body
         )
