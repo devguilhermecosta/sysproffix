@@ -103,7 +103,6 @@ class UserCreateView(View):
                 print('email enviado com sucesso')
             except Exception as error:
                 # TODO criar um log error aqui
-                # TODO criar os testes de envio de email
                 print('Erro ao enviar o email: ', error)
 
             return redirect(reverse('users:list'))
