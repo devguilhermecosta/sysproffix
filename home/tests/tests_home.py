@@ -17,6 +17,7 @@ class HomeTests(TestCase):
         ("Digite seu e-mail..."),
         ("Digite sua senha..."),
         ("acessar painel"),
+        ("esqueci minha senha"),
     ])
     def test_home_loads_correct_content(self, text: str) -> None:
         response = self.client.get(reverse(self.login_base_url))
