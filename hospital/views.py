@@ -157,6 +157,3 @@ class HospitalDeleteView(View):
         return redirect(
             reverse('hospital:list')
         )
-
-
-# TODO adicionar todos os logs
