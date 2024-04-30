@@ -1,0 +1,15 @@
+{% autoescape off %}
+  <p>Olá {{ current_user.first_name|title }}.</p>
+
+  <p>Este é um e-mail automático. Não precisa respondê-lo.</p>
+  <p>Você está recebendo este e-mail pois solicitou a recuperação de sua senha de acesso.</p>
+  <p>A senha abaixo é temporária.</p>
+  <p>Ao realizar o seu primeiro acesso, modifique sua senha no menu **Minha Conta**.</p>
+  <p>Acesso o portal por aqui: {{ link }}</p>
+
+  <p>usuário: {{ current_user.email }}</p>
+  <p>senha: {{ password }}</p>
+
+  <p>--</p>
+  <p>Atenciosamente: Equipe Proffix</p>
+{% endautoescape %}

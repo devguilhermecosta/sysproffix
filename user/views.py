@@ -17,6 +17,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from utils.decorators import only_user_admin
 from utils.strings.password import generate_password
 from utils.log import LogMixin
+from . forms.reset_password import ResetPasswordForm
 
 
 UserModel = get_user_model()
@@ -244,4 +245,77 @@ class MyAccountView(View):
         return redirect(reverse('users:account'))
 
 
-# TODO criar o sistema de recuperação de senha
+class ResetPasswordView(View, LogMixin):
+    def get(self, *args, **kwargs) -> HttpResponse:
+        session = self.request.session.get('reset-password', None)
+        form = ResetPasswordForm(session)
+
+        return render(
+            self.request,
+            'user/pages/reset_password.html',
+            context={
+                'form': form,
+                'button_value': 'recuperar senha',
+            }
+        )
+
+    def post(self, *args, **kwargs) -> HttpResponse:
+        post = self.request.POST
+        self.request.session['reset-password'] = post
+        form = ResetPasswordForm(post)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            user = UserModel.objects.get(email=email)
+            new_password = generate_password()
+            user.set_password(new_password)
+            user.save()
+
+            try:
+                send_mail(
+                    'Recuperação de senha',
+                    strip_tags(
+                        render_to_string(
+                            'user/pages/msg_reset_pwd.html',
+                            context={
+                                'current_user': user,
+                                'password': new_password,
+                                'link': get_current_site(self.request).domain,  # noqa: E501
+                            }
+                        )
+                    ),
+                    settings.EMAIL_HOST_USER,
+                    [user.email],  # type: ignore
+                    fail_silently=False,
+                )
+
+                del self.request.session['reset-password']
+
+                self.log_success(
+                    f'recuperação de senha para {email}',
+                )
+                messages.success(
+                    self.request,
+                    'E-mail enviado com sucesso'
+                )
+
+            except Exception as e:
+                self.log_error(
+                    f'envio de e-mail recup. de senha para {email} - {e}',
+                )
+                messages.error(
+                    self.request,
+                    'Erro ao enviar e-mail de recuperação.'
+                )
+
+            return redirect(reverse('home:login'))
+
+        messages.error(
+            self.request,
+            'Existem erros no formulário'
+        )
+
+        return redirect(reverse('users:reset-password'))
+
+
+# TODO criar os testes para ResetPasswordView.
