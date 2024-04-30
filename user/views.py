@@ -80,10 +80,6 @@ class UserCreateView(View, LogMixin):
             user.set_password(password)
             user.save()
 
-            self.log_success(
-                f'usuário {user.full_name} criado com sucesso',  # type: ignore
-            )
-
             del self.request.session['user-register']
 
             messages.success(
@@ -128,7 +124,7 @@ class UserCreateView(View, LogMixin):
     ],
     name='dispatch',
 )
-class UserDetailView(View, LogMixin):
+class UserDetailView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         user = get_object_or_404(get_user_model(), pk=pk)
@@ -156,9 +152,6 @@ class UserDetailView(View, LogMixin):
         if form.is_valid():
             form.save()
 
-            self.log_success(
-                f'senha do usuário {user.full_name} alterada'  # type: ignore
-            )
             del self.request.session['user-edit']
 
             messages.success(
@@ -182,15 +175,11 @@ class UserDetailView(View, LogMixin):
     ],
     name='dispatch',
 )
-class UserDeleteView(View, LogMixin):
+class UserDeleteView(View):
     def post(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         user = get_object_or_404(get_user_model(), pk=pk)
         user.delete()
-
-        self.log_success(
-            f'usuário {user.full_name} deletado com sucesso',  # type: ignore
-        )
 
         messages.success(
             self.request,
