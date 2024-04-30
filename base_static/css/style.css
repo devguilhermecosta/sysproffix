@@ -366,6 +366,12 @@ span.size-48 {
  background-color: var(--bg_success);
 }
 
+button[type='submit']:disabled {
+  background-color: var(--bg_dark);
+  color: var(--bg_white);
+  cursor: not-allowed;
+}
+
 .delete-button-float {
   position: fixed;
   top: 25px;
@@ -401,6 +407,19 @@ span.size-48 {
 .login_form__div_container {
   border: 1px solid #686666;
   user-select: none;
+}
+
+.reset-password {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--bg_blue_hover);
+}
+
+.reset-password::first-letter {
+  text-transform: uppercase;
 }
 
 .C_menu {

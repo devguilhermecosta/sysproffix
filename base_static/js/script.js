@@ -16,3 +16,17 @@ if (message) {
     message.classList.add('messages_close');
   }, MESSAGE_TIME_OUT);
 }
+
+
+// disable all buttons submit after click
+const buttons = document.querySelectorAll('button[type=submit]');
+
+if (buttons) {
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      form = btn.parentElement;
+      btn.disabled = true;
+      form.submit();
+    })
+  })
+}
