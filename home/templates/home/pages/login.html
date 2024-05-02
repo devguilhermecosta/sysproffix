@@ -4,68 +4,50 @@
 {% block content %}
   <section class="total_view_port_centered bg-red">
 
-    {% if user.is_authenticated %}
-      <div class="pd-8 rounded-4 center-flex-column bg-white">
-        <p class="mtb-8">Você está logado como
-          <span style="text-transform: capitalize; text-decoration: underline">
-            {{ user.full_name }}
-          </span>
-        </p>
-        <a 
-          href="{% url 'home:main' %}"
-          class="pd-8 mtb-8 rounded-4 bg-blue color-white"
-          style="display: block">
-          Retornar à página principal
-        </a>
-      </div>
+    <!-- form -->
+    <div>
+      <form
+        action="{% url "home:authentication" %}"
+        method="POST"
+        class="login_form rounded-4"
+      >
+        {% csrf_token %}
 
-    {% else %}
-      <!-- form -->
-      <div>
-        <form
-          action="{% url "home:authentication" %}"
-          method="POST"
-          class="login_form rounded-4"
-        >
-          {% csrf_token %}
+        <!-- logo -->
+        <figure style="text-align: center" class="mtb-8">
+          <img 
+            src="{% static 'images/logo.jpg' %}" 
+            alt="logo proffix"
+            style="width: 100%; max-width: 160px"
+          >
+        </figure>
 
-          <!-- logo -->
-          <figure style="text-align: center" class="mtb-8">
-            <img 
-              src="{% static 'images/logo.jpg' %}" 
-              alt="logo proffix"
-              style="width: 100%; max-width: 160px"
-            >
-          </figure>
-
-          <!-- username -->
-          <div class="login_form__div_container center-flex mtb-8">
-            <div class="center-flex">
-              <span class="material-symbols-outlined size-40 dark-inactive">person</span>
-            </div>
-            <input type="username" name="username" id="username" class="login_form__input" placeholder="Digite seu e-mail...">
+        <!-- username -->
+        <div class="login_form__div_container center-flex mtb-8">
+          <div class="center-flex">
+            <span class="material-symbols-outlined size-40 dark-inactive">person</span>
           </div>
+          <input type="username" name="username" id="username" class="login_form__input" placeholder="Digite seu e-mail...">
+        </div>
 
-          <!-- password -->
-          <div class="login_form__div_container center-flex mtb-8">
-            <div class="center-flex">
-              <span class="material-symbols-outlined size-40 dark-inactive">key</span>
-            </div>
-            <input type="password" name="password" id="password" class="login_form__input" placeholder="Digite sua senha...">
+        <!-- password -->
+        <div class="login_form__div_container center-flex mtb-8">
+          <div class="center-flex">
+            <span class="material-symbols-outlined size-40 dark-inactive">key</span>
           </div>
+          <input type="password" name="password" id="password" class="login_form__input" placeholder="Digite sua senha...">
+        </div>
 
-          <!-- button -->
-          <button type="submit" class="center-flex mtb-8 access-button" style="width: 100%">
-            <span class="material-symbols-outlined size-40">login</span>
-            <p>acessar painel</p>
-          </button>
+        <!-- button -->
+        <button type="submit" class="center-flex mtb-8 access-button" style="width: 100%">
+          <span class="material-symbols-outlined size-40">login</span>
+          <p>acessar painel</p>
+        </button>
 
-          <!-- reset password -->
-          <a class="reset-password" href="{% url 'users:reset-password' %}">esqueci minha senha</a>
-        </form>
-      </div>
-
-    {% endif %}
+        <!-- reset password -->
+        <a class="reset-password" href="{% url 'users:reset-password' %}">esqueci minha senha</a>
+      </form>
+    </div>
 
   </section>
 
