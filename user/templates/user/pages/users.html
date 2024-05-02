@@ -26,18 +26,18 @@
         </tr>
         {% for user in users %}
           <tr>
-            <td><a class="fw-500" href="{% url 'users:details' user.pk %}">{{ user.full_name|title }}</a></td>
-            <td>{{ user.created_at|date:"d/m/Y" }}</td>
-            <td>
+            <td data-label="usuário" ><a class="fw-500" href="{% url 'users:details' user.pk %}">{{ user.full_name|title }}</a></td>
+            <td data-label="desde" >{{ user.created_at|date:"d/m/Y" }}</td>
+            <td data-label="ativo">
               <input type="checkbox" name="is_active" id="is_active" disabled {% if user.is_active %}checked{% endif %}>
             </td>
-            <td>
+            <td data-label="admin.">
               <input type="checkbox" name="is_admin" id="is_admin" {% if user.is_admin %}checked{% endif %} disabled>
             </td>
-            <td>
+            <td data-label="desenv.">
               <input type="checkbox" name="is_staff" id="is_staff" user.is_staff {% if user.is_staff %}checked{% endif %} disabled>
             </td>
-            <td>
+            <td data-label="hospital">
               <input 
                 type="checkbox" 
                 name="is_hospital_user"
@@ -46,7 +46,7 @@
                 disabled>
             </td>
             {% if user.hospital %}
-              <td>{{ user.hospital|title }}</td>
+              <td data-label="instituição">{{ user.hospital|title }}</td>
             {% endif %}
           </tr>
         {% endfor %}

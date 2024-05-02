@@ -8,20 +8,16 @@
     <!-- user data -->
     <table class="my-account-table">
       <tr>
-        <td>nome</td>
-        <td>{{ user.full_name|title }}</td>
+        <td data-label="nome:">{{ user.full_name|title }}</td>
       </tr>
       <tr>
-        <td>email</td>
-        <td>{{ user.email }}</td>
+        <td data-label="email:">{{ user.email }}</td>
       </tr>
       <tr>
-        <td>instituição</td>
-        <td>{{ user.hospital.name|title }}</td>
+        <td data-label="instituição:">{{ user.hospital.name|title }}</td>
       </tr>
       <tr>
-        <td>desde</td>
-        <td>{{ user.created_at|date:"d/m/Y" }}</td>
+        <td data-label="desde:">{{ user.created_at|date:"d/m/Y" }}</td>
       </tr>
     </table>
 

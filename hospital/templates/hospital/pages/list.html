@@ -23,9 +23,11 @@
         </tr>
         {% for hospital in hospitals %}
           <tr>
-            <td><a href="{% url 'hospital:details' hospital.id %}" class="fw-500">{{ hospital.name|title }}</a></td>
-            <td>{{ hospital.city|title }}</td>
-            <td>{{ hospital.state|upper }}</td>
+            <td data-label="nome">
+              <a href="{% url 'hospital:details' hospital.id %}" class="fw-500">{{ hospital.name|title }}</a>
+            </td>
+            <td data-label="cidade">{{ hospital.city|title }}</td>
+            <td data-label="estado">{{ hospital.state|upper }}</td>
           </tr>
         {% endfor %}
       </table>

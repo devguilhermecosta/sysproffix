@@ -30,3 +30,14 @@ if (buttons) {
     })
   })
 }
+
+
+// menu mobile
+const menuIcon = document.querySelector('#menu-mobile');
+const menu = document.querySelector('#menu-desk');
+
+if (menuIcon) {
+  menuIcon.addEventListener("click", () => {
+    menu.classList.toggle('open-menu');
+  })
+}
