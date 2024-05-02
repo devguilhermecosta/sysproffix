@@ -1,5 +1,5 @@
-from django.test import TestCase
 from django.urls import reverse
+from django.test import TestCase
 from parameterized import parameterized  # type: ignore
 from utils.for_test.auth.user import create_superuser
 
@@ -46,6 +46,33 @@ class HomeTests(TestCase):
             response.content.decode("utf-8"),
         )
 
+    def test_home_must_redirects_to_main_page(self) -> None:
+        """
+            if the user is authenticated, he will redirected to main page
+        """
+        create_superuser('jhon', 'dhoe', 'email@email.com', '123456')
+
+        # login
+        self.client.post(
+            reverse(self.authentication_base_url),
+            {
+                'username': 'email@email.com',
+                'password': '123456',
+            },
+            follow=True
+        )
+
+        response = self.client.get(
+            reverse(self.login_base_url),
+            follow=True,
+        )
+
+        self.assertRedirects(
+            response=response,
+            expected_url='/home/',
+            status_code=302
+        )
+
     def test_home_returns_success_message_if_user(self) -> None:
         """
             Must returns error message if invalid user or password.
@@ -65,38 +92,4 @@ class HomeTests(TestCase):
         self.assertIn(
             "Login realizado com sucesso",
             response.content.decode("utf-8"),
-        )
-
-    def test_home_show_message_if_the_is_authenticate(self) -> None:
-        """
-            If the user is already authenticated and tries to access
-            the login page, a message will be displayed.
-        """
-
-        create_superuser('jhon', 'dhoe', 'email@email.com', '123456')
-
-        # login
-        self.client.post(
-            reverse(self.authentication_base_url),
-            {
-                'username': 'email@email.com',
-                'password': '123456',
-            },
-            follow=True
-        )
-
-        response = self.client.post(
-            reverse(self.login_base_url),
-            follow=True,
-        )
-
-        content = response.content.decode("utf-8")
-
-        self.assertIn(
-            "Você está logado como",
-            content,
-        )
-        self.assertIn(
-            "jhon dhoe",
-            content,
         )
