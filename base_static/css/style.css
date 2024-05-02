@@ -547,7 +547,7 @@ button[type='submit']:disabled {
 }
 
 .helptext {
-  font-size: 12px;
+  font-size: 10px;
   white-space: pre;
 }
 
@@ -580,6 +580,10 @@ button[type='submit']:disabled {
 }
 
 @media screen and (min-width: 420px) {
+  .helptext {
+    font-size: 12px;
+  }
+
   .my-account-table td {
     flex-direction: row;
   }
