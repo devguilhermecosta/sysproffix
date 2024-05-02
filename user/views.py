@@ -9,7 +9,7 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from user.forms import UserRegisterForm, ChangePasswordForm
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -299,7 +299,7 @@ class ResetPasswordView(View, LogMixin):
                     'E-mail enviado com sucesso'
                 )
 
-            except Exception as e:
+            except (Exception, BadHeaderError) as e:
                 self.log_error(
                     f'envio de e-mail recup. de senha para {email} - {e}',
                 )
@@ -316,6 +316,3 @@ class ResetPasswordView(View, LogMixin):
         )
 
         return redirect(reverse('users:reset-password'))
-
-
-# TODO criar os testes para ResetPasswordView.
