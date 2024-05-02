@@ -10,6 +10,13 @@ from django.utils.decorators import method_decorator
 
 class LoginView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
+        user = self.request.user
+
+        if user.is_authenticated:
+            return redirect(
+                reverse('home:main')
+            )
+
         return render(
             self.request,
             template_name='home/pages/login.html',
