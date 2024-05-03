@@ -1,0 +1,22 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+  <section 
+    class="total_view_port_col_start_without_pd" 
+    style="position: relative; max-width: fit-content"
+  >
+    
+    <!-- new group -->
+    <a
+      class="new-data-symbol" 
+      href="{{ new_group_url }}"
+      style="position: absolute; top: 40px; right: 0"
+    >
+      <span class="material-symbols-outlined">add</span>
+    </a>
+
+    {% include 'global/partials/form.html' %}
+    {% include 'global/partials/button_delete.html' %}
+
+  </section>
+{% endblock content %}

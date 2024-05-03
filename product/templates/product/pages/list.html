@@ -1,0 +1,29 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+  <section class="total_view_port_column_start pd-8 mt-8 rg-10">
+    <h1 class="title fw-500 fs-20">Produtos</h1>
+
+    <section class="default_table_container">
+      <!-- table -->
+      <table class="default_table">
+        <!-- new product -->
+        {% include "global/partials/new_data.html" %}
+  
+        <tr>
+          <th>produto</th>
+          <th>grupo</th>
+        </tr>
+  
+        {% for product in products %}
+          <tr>
+            <td data-label="produto">
+              <a href="{% url 'products:details' product.id %}">{{ product.name|capfirst }}</a>
+            </td>
+            <td data-label="grupo">{{ product.group.name|title }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </section>
+  </section>
+{% endblock content %}

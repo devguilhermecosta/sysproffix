@@ -3,16 +3,36 @@ from stock.models import Stock
 
 
 class ProductGroup(models.Model):
-    name = models.CharField(max_length=255, blank=False, null=False)
+    name = models.CharField(max_length=255,
+                            blank=False,
+                            null=False,
+                            unique=True,
+                            verbose_name='descrição',
+                            error_messages={
+                                'unique': 'já existe um grupo com este nome',
+                            }
+                            )
 
     def __str__(self) -> str:
         return self.name
 
 
 class Product(models.Model):
-    group = models.ForeignKey(ProductGroup, on_delete=models.CASCADE)
-    code = models.CharField(max_length=255, blank=False, null=False)
-    name = models.CharField(max_length=255, blank=False, null=False)
+    group = models.ForeignKey(ProductGroup,
+                              on_delete=models.CASCADE,
+                              verbose_name='grupo',
+                              )
+    code = models.CharField(max_length=255,
+                            blank=False,
+                            null=False,
+                            unique=True,
+                            verbose_name='código',
+                            )
+    name = models.CharField(max_length=255,
+                            blank=False,
+                            null=False,
+                            verbose_name='descrição',
+                            )
 
     def __str__(self) -> str:
         return self.name
