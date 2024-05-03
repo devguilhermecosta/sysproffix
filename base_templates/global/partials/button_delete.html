@@ -1,0 +1,22 @@
+<!-- form delete -->
+<form 
+  id="form-delete"
+  class="delete-button-float center-flex rounded-4 pd-8 bg-red color-white"
+  method="POST"
+  action="{{ delete_url }}"
+  >
+  {% csrf_token %}
+  <span>deletar</span>
+  <span class="material-symbols-outlined">delete</span>
+</form>
+
+<script>
+  const form_delete = document.querySelector("#form-delete");
+  form_delete.addEventListener("click", (event) => {
+    event.preventDefault();
+    const confirm = window.confirm('{{ delete_message }}');
+    if (confirm) form_delete.submit();
+  })
+</script>
+
+<!-- TODO padronizar o botão de delete para todos os arquivos html -->
