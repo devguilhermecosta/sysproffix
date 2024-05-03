@@ -26,7 +26,8 @@ class HospitalListView(View):
             self.request,
             'hospital/pages/list.html',
             context={
-                'hospitals': hospital_list
+                'hospitals': hospital_list,
+                'new_data_url': reverse('hospital:new')
             }
         )
 

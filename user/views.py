@@ -40,6 +40,7 @@ class UserListView(View):
             'user/pages/users.html',
             context={
                 'users': users,
+                'new_data_url': reverse('users:new')
             }
         )
 
