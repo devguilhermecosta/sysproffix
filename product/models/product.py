@@ -27,6 +27,9 @@ class Product(models.Model):
                             null=False,
                             unique=True,
                             verbose_name='código',
+                            error_messages={
+                                'unique': 'já existe um produto com este código'  # noqa: E501
+                            }
                             )
     name = models.CharField(max_length=255,
                             blank=False,
