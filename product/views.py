@@ -63,7 +63,7 @@ class ProductCreateView(View):
 
             messages.success(
                 self.request,
-                'Product criado com sucesso',
+                'Produto criado com sucesso',
             )
 
             del self.request.session['new-product']
@@ -117,7 +117,7 @@ class ProductDetailView(View):
 
             messages.success(
                 self.request,
-                'Producto salvo com sucesso',
+                'Produto salvo com sucesso',
             )
 
             del self.request.session['product-details']
@@ -213,4 +213,5 @@ class ProductGroupCreateView(View):
 
         return redirect(reverse('products:new_group'))
 
-# TODO criar todos os testes
+# TODO criar CRUD apara o grupo de produtos
+# esse crud deve ficar em outro arquivo, para haver a separação.
