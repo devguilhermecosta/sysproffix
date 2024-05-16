@@ -7,6 +7,15 @@
     <section class="default_table_container">
       <!-- table -->
       <table class="default_table">
+        <!-- groups -->
+        <div class="mb-16 right-flex">
+          <a 
+            href="{% url 'products:group_list' %}" 
+            class="access-button center-flex pd-8 rounded-4 fit-content">
+            grupos
+          </a>
+        </div>
+
         <!-- new product -->
         {% include "global/partials/new_data.html" %}
   

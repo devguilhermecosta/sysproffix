@@ -3,5 +3,9 @@
 {% block content %}
   <section class="total_view_port_col_start_without_pd" >
     {% include 'global/partials/form.html' %}
+
+    {% if group %}
+      {% include 'global/partials/button_delete.html' %}
+    {% endif %}
   </section>
 {% endblock content %}

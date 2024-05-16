@@ -1,0 +1,28 @@
+{% extends 'global/pages/base.html' %}
+
+{% block content %}
+  <section class="total_view_port_column_start pd-8 mt-8 rg-10">
+    <h1 class="title fw-500 fs-20">Grupos</h1>
+
+    <section class="default_table_container">
+      <!-- table -->
+      <table class="default_table">
+        <!-- new product -->
+        {% include "global/partials/new_data.html" %}
+  
+        <tr>
+          <th>nome</th>
+        </tr>
+  
+        {% for group in groups %}
+          <tr>
+            <td data-label="nome">
+              <a href="{% url 'products:group_edit' group.pk %}">{{ group.name|capfirst }}</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </section>
+  </section>
+
+{% endblock content %}
