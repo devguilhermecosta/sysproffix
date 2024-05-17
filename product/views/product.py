@@ -175,7 +175,7 @@ class ProductDeleteView(View):
     ],
     name='dispatch',
 )
-class ProductGroupCreateView(View):
+class AddNewGroupView(View):
     def get(self, *args, **kwargs) -> HttpResponse:
         session = self.request.session.get('new-group', None)
         form = ProductGroupRegisterForm(session)
