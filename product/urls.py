@@ -17,7 +17,7 @@ urlpatterns = [
          name="delete",
          ),
     path('new-group/',
-         views.ProductGroupCreateView.as_view(),
+         views.AddNewGroupView.as_view(),
          name="new_group",
          ),
     path('groups/',
