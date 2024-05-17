@@ -159,6 +159,4 @@ class ProductGroupDeleteView(View):
 
         return redirect(reverse('products:group_list'))
 
-
-# TODO revisar todos as views
-# TODO criar todos os testes
+# TODO criar uma classe comum para isolar o decorador only_user_admin
