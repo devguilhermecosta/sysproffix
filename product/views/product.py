@@ -1,23 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.views import View
 from django.http import HttpResponse
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from utils.decorators import only_user_admin
+from utils.views import OnlyAdminBaseView
 from .. forms.register import ProductRegisterForm, ProductGroupRegisterForm
 from .. models import Product, ProductItem
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductListView(View):
+class ProductListView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         products = Product.objects.all()
 
@@ -31,14 +21,7 @@ class ProductListView(View):
         )
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductCreateView(View):
+class ProductCreateView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         session = self.request.session.get('new-product', None)
         form = ProductRegisterForm(session)
@@ -78,14 +61,7 @@ class ProductCreateView(View):
         return redirect(reverse('products:new'))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductDetailView(View):
+class ProductDetailView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         product = get_object_or_404(Product, id=pk)
@@ -132,14 +108,7 @@ class ProductDetailView(View):
         return redirect(reverse('products:details', args=(product.pk,)))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductDeleteView(View):
+class ProductDeleteView(OnlyAdminBaseView):
     def post(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         product = get_object_or_404(Product, id=pk)
@@ -168,14 +137,7 @@ class ProductDeleteView(View):
         # TODO criar um ProductItem para testar na prática a mensagem de erro
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class AddNewGroupView(View):
+class AddNewGroupView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         session = self.request.session.get('new-group', None)
         form = ProductGroupRegisterForm(session)

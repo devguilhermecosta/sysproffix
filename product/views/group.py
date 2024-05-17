@@ -1,24 +1,14 @@
 from typing import Any
-from django.views.generic import ListView, View
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
 from django.contrib import messages
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
-from utils.decorators import only_user_admin
+from utils.views import OnlyAdminBaseView, OnlyAdminListView
 from product.models import ProductGroup, Product
 from product.forms.register import ProductGroupRegisterForm
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductGourpListView(ListView):
+class ProductGourpListView(OnlyAdminListView):
     model = ProductGroup
     context_object_name = 'groups'
     template_name = 'product/pages/groups.html'
@@ -29,14 +19,7 @@ class ProductGourpListView(ListView):
         return ctx
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductGroupDetailView(View):
+class ProductGroupDetailView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         group = get_object_or_404(ProductGroup, pk=pk)
@@ -84,14 +67,7 @@ class ProductGroupDetailView(View):
         return redirect(reverse('products:group_edit', args=(group.pk,)))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductGroupRegisterView(View):
+class ProductGroupRegisterView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         session = self.request.session.get('product-group-register', None)
         form = ProductGroupRegisterForm(session)
@@ -130,14 +106,7 @@ class ProductGroupRegisterView(View):
         return redirect(reverse('products:group_register'))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class ProductGroupDeleteView(View):
+class ProductGroupDeleteView(OnlyAdminBaseView):
     def post(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         group = get_object_or_404(ProductGroup, pk=pk)
@@ -158,5 +127,3 @@ class ProductGroupDeleteView(View):
             )
 
         return redirect(reverse('products:group_list'))
-
-# TODO criar uma classe comum para isolar o decorador only_user_admin

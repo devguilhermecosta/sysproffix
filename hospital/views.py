@@ -1,23 +1,13 @@
-from django.views import View
-from django.utils.decorators import method_decorator
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from . models import Hospital
 from . forms import HospitalRegisterForm
-from utils.decorators import only_user_admin
+from utils.views import OnlyAdminBaseView
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class HospitalListView(View):
+class HospitalListView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
 
         hospital_list = Hospital.objects.all()
@@ -32,14 +22,7 @@ class HospitalListView(View):
         )
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class HospitalRegisterView(View):
+class HospitalRegisterView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
 
         session = self.request.session.get('hospital-register', None)
@@ -80,14 +63,7 @@ class HospitalRegisterView(View):
         return redirect(reverse('hospital:new'))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class HospitalDetailsView(View):
+class HospitalDetailsView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         hospital = get_object_or_404(Hospital, pk=pk)
@@ -129,14 +105,7 @@ class HospitalDetailsView(View):
         return redirect(reverse('hospital:details', args=(pk,)))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class HospitalDeleteView(View):
+class HospitalDeleteView(OnlyAdminBaseView):
     def post(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         hospital = get_object_or_404(Hospital, pk=pk)

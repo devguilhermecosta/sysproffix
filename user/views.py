@@ -14,23 +14,16 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.contrib.sites.shortcuts import get_current_site
-from utils.decorators import only_user_admin
 from utils.strings.password import generate_password
 from utils.log import LogMixin
+from utils.views import OnlyAdminBaseView
 from . forms.reset_password import ResetPasswordForm
 
 
 UserModel = get_user_model()
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class UserListView(View):
+class UserListView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         user_model = get_user_model()
         users = user_model.objects.all()
@@ -45,14 +38,7 @@ class UserListView(View):
         )
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class UserCreateView(View, LogMixin):
+class UserCreateView(OnlyAdminBaseView, LogMixin):
     def get(self, *args, **kwargs) -> HttpResponse:
 
         session = self.request.session.get('user-register', None)
@@ -119,14 +105,7 @@ class UserCreateView(View, LogMixin):
         return redirect(reverse('users:new'))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class UserDetailView(View):
+class UserDetailView(OnlyAdminBaseView):
     def get(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         user = get_object_or_404(get_user_model(), pk=pk)
@@ -170,14 +149,7 @@ class UserDetailView(View):
         return redirect(reverse('users:details', args=(user.pk,)))
 
 
-@method_decorator(
-    [
-        login_required(redirect_field_name='next', login_url='/'),
-        only_user_admin,
-    ],
-    name='dispatch',
-)
-class UserDeleteView(View):
+class UserDeleteView(OnlyAdminBaseView):
     def post(self, *args, **kwargs) -> HttpResponse:
         pk = kwargs.get('id', None)
         user = get_object_or_404(get_user_model(), pk=pk)
